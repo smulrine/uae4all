@@ -14,7 +14,7 @@ SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
 SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
 PROG		= $(NAME)
-RELEASEDIR	= release
+RELEASEDIR	= uae4all
 DATADIR		= data
 OPKDIR		= opk_data
 
@@ -201,13 +201,28 @@ $(PROG): $(OBJS)
 run: $(PROG)
 	./$(PROG)
 
+ipk: $(PROG)
+	@mkdir -p $(RELEASEDIR)
+	@rm -rf /tmp/.uae4all-ipk/ && mkdir -p /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
+	@cp $(PROG) /tmp/.uae4all-ipk/
+	@cp -R $(DATADIR) ./docs/ /tmp/.uae4all-ipk/
+	@rm /tmp/.uae4all-ipk/$(DATADIR)/music.mod /tmp/.uae4all-ipk/$(DATADIR)/click.wav
+	@cp $(PROG) $(OPKDIR)/uae4all.png $(OPKDIR)/readme.man.txt /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all
+	@cp $(OPKDIR)/uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators
+	@cp $(OPKDIR)/amiga.uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
+	@sed "s/^Version:.*/Version: $$(date +%Y%m%d)/" $(OPKDIR)/control > /tmp/.uae4all-ipk/control
+	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/control.tar.gz -C /tmp/.uae4all-ipk/ control
+	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/data.tar.gz -C /tmp/.uae4all-ipk/root/ .
+	@echo 2.0 > /tmp/.uae4all-ipk/debian-binary
+	@ar r $(RELEASEDIR)/uae4all.ipk /tmp/.uae4all-ipk/control.tar.gz /tmp/.uae4all-ipk/data.tar.gz /tmp/.uae4all-ipk/debian-binary
+
 opk: $(PROG)
 	mkdir -p $(RELEASEDIR)
 	cp $(PROG) $(RELEASEDIR)
 	cp -R $(DATADIR) $(RELEASEDIR)
 	rm $(RELEASEDIR)/$(DATADIR)/music.mod
 	rm $(RELEASEDIR)/$(DATADIR)/click.wav
-	cp $(OPKDIR)/* $(RELEASEDIR)
+	cp $(OPKDIR)/default.gcw0.desktop $(OPKDIR)/readme.man.txt $(OPKDIR)/uae4all.png $(RELEASEDIR)
 	cp -R ./docs/ $(RELEASEDIR)
 	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
 
