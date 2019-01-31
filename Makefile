@@ -204,9 +204,8 @@ run: $(PROG)
 ipk: $(PROG)
 	@mkdir -p $(RELEASEDIR)
 	@rm -rf /tmp/.uae4all-ipk/ && mkdir -p /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
-	@cp $(PROG) /tmp/.uae4all-ipk/
-	@cp -R $(DATADIR) ./docs/ /tmp/.uae4all-ipk/
-	@rm /tmp/.uae4all-ipk/$(DATADIR)/music.mod /tmp/.uae4all-ipk/$(DATADIR)/click.wav
+	@cp -R $(DATADIR) ./docs/ /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all
+	@rm /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all/$(DATADIR)/music.mod /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all/$(DATADIR)/click.wav
 	@cp $(PROG) $(OPKDIR)/uae4all.png $(OPKDIR)/readme.man.txt /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all
 	@cp $(OPKDIR)/uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators
 	@cp $(OPKDIR)/amiga.uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
