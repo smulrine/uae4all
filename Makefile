@@ -203,12 +203,12 @@ run: $(PROG)
 
 ipk: $(PROG)
 	@mkdir -p $(RELEASEDIR)
-	@rm -rf /tmp/.uae4all-ipk/ && mkdir -p /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
+	@rm -rf /tmp/.uae4all-ipk/ && mkdir -p /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators.systems
 	@cp -R $(DATADIR) ./docs/ /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all
 	@rm /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all/$(DATADIR)/music.mod /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all/$(DATADIR)/click.wav
 	@cp $(PROG) $(OPKDIR)/uae4all.png $(OPKDIR)/readme.man.txt /tmp/.uae4all-ipk/root/home/retrofw/emus/uae4all
 	@cp $(OPKDIR)/uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators
-	@cp $(OPKDIR)/amiga.uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/systems
+	@cp $(OPKDIR)/amiga.uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators.systems
 	@sed "s/^Version:.*/Version: $$(date +%Y%m%d)/" $(OPKDIR)/control > /tmp/.uae4all-ipk/control
 	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/control.tar.gz -C /tmp/.uae4all-ipk/ control
 	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/data.tar.gz -C /tmp/.uae4all-ipk/root/ .
