@@ -210,7 +210,8 @@ ipk: $(PROG)
 	@cp $(OPKDIR)/uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators
 	@cp $(OPKDIR)/amiga.uae4all.lnk /tmp/.uae4all-ipk/root/home/retrofw/apps/gmenu2x/sections/emulators.systems
 	@sed "s/^Version:.*/Version: $$(date +%Y%m%d)/" $(OPKDIR)/control > /tmp/.uae4all-ipk/control
-	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/control.tar.gz -C /tmp/.uae4all-ipk/ control
+	@cp $(OPKDIR)/conffiles /tmp/.uae4all-ipk/
+	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/control.tar.gz -C /tmp/.uae4all-ipk/ control conffiles
 	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/data.tar.gz -C /tmp/.uae4all-ipk/root/ .
 	@echo 2.0 > /tmp/.uae4all-ipk/debian-binary
 	@ar r $(RELEASEDIR)/uae4all.ipk /tmp/.uae4all-ipk/control.tar.gz /tmp/.uae4all-ipk/data.tar.gz /tmp/.uae4all-ipk/debian-binary
