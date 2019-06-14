@@ -1,0 +1,5 @@
+*.o
+*.dge
+*.opk
+*.ipk
+uae4all/*

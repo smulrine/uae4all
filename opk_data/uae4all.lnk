@@ -1,0 +1,4 @@
+title=UAE4ALL
+description=Amiga Emulator
+exec=/home/retrofw/emus/uae4all/uae4all.dge
+clock=600
