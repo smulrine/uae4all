@@ -81,6 +81,8 @@ static int res_shift;
 
 static int interlace_seen = 0;
 
+extern int mainMenu_statusbar;
+
 extern int drawfinished;
 
 /* Lookup tables for dual playfields.  The dblpf_*1 versions are for the case
@@ -1973,7 +1975,7 @@ static _INLINE_ void draw_status_line (int line)
     else
         x = TD_PADX;
 
-    y = line - (GFXVIDINFO_HEIGHT - TD_TOTAL_HEIGHT);
+    y = line - (GFXVIDINFO_HEIGHT - (!mainMenu_statusbar ? 0 : TD_TOTAL_HEIGHT));
     xlinebuffer = row_map[line];
 
     uae4all_memclr(xlinebuffer, GFXVIDINFO_WIDTH * GFXVIDINFO_PIXBYTES);
@@ -2038,7 +2040,7 @@ static _INLINE_ void finish_drawing_frame (void)
 	i1 = i + min_ypos_for_screen;
 	where = amiga2aspect_line_map[i1];
 #if defined(USE_ALL_LINES) || !defined(USE_LINESTATE)
-	if (where >= GFXVIDINFO_HEIGHT - TD_TOTAL_HEIGHT)
+	if (where >= GFXVIDINFO_HEIGHT - (!mainMenu_statusbar ? 0 : TD_TOTAL_HEIGHT))
 	    break;
 #endif
 	if (where == -1)
@@ -2072,7 +2074,7 @@ static _INLINE_ void finish_drawing_frame (void)
 #endif
 	back_powerled=gui_data.powerled;
 #endif
- 	for (i = 0; i < TD_TOTAL_HEIGHT; i++) {
+ 	for (i = 0; i < (!mainMenu_statusbar ? 0 : TD_TOTAL_HEIGHT); i++) {
 		int line = GFXVIDINFO_HEIGHT - TD_TOTAL_HEIGHT + i;
 		draw_status_line (line);
 		do_flush_line (line);
@@ -2160,7 +2162,7 @@ void hsync_record_line_state (int lineno, int changed)
 #endif
 #endif
 #ifndef USE_ALL_LINES
-    if (amiga2aspect_line_map[lineno - thisframe_y_adjust_real + min_ypos_for_screen] >= GFXVIDINFO_HEIGHT - TD_TOTAL_HEIGHT) {
+    if (amiga2aspect_line_map[lineno - thisframe_y_adjust_real + min_ypos_for_screen] >= GFXVIDINFO_HEIGHT - (!mainMenu_statusbar ? 0 : TD_TOTAL_HEIGHT)) {
 #ifdef USE_LINESTATE
 	    *state = LINE_UNDECIDED;
 #endif

@@ -22,6 +22,7 @@ static const char *text_str_frameskip="Frameskip";
 static const char *text_str_autosave="Save disks";
 static const char *text_str_vpos="Screen pos";
 static const char *text_str_joystick="Use analog";
+static const char *text_str_status="Status bar";
 static const char *text_str_8="8";
 static const char *text_str_16="16";
 static const char *text_str_20="20";
@@ -61,6 +62,7 @@ enum MainMenuEntry {
 	MAIN_MENU_ENTRY_SOUND,
 	MAIN_MENU_ENTRY_SAVE_DISKS,
 	MAIN_MENU_ENTRY_USE_JOY,
+	MAIN_MENU_ENTRY_STATUS_BAR,
 	MAIN_MENU_ENTRY_RESET_EMULATION,
 	MAIN_MENU_ENTRY_RETURN_TO_EMULATION,
 	MAIN_MENU_ENTRY_EXIT_UAE,
@@ -110,6 +112,7 @@ int mainMenu_sound=0;
 #endif
 int mainMenu_autosave=-1;
 int mainMenu_usejoy=-1;
+int mainMenu_statusbar=-1;
 
 static void draw_mainMenu(enum MainMenuEntry c)
 {
@@ -295,6 +298,21 @@ static void draw_mainMenu(enum MainMenuEntry c)
 	else
 		write_text(column, row, text_str_on);
 
+	row += 2;
+
+	write_text(6, row, text_str_status);
+	column = 17;
+
+	if (!mainMenu_statusbar && (c != MAIN_MENU_ENTRY_STATUS_BAR || flash))
+		write_text_inv(column, row, text_str_off);
+	else
+		write_text(column, row, text_str_off);
+	column += strlen(text_str_off) + 2;
+	if (mainMenu_statusbar && (c != MAIN_MENU_ENTRY_STATUS_BAR || flash))
+		write_text_inv(column, row, text_str_on);
+	else
+		write_text(column, row, text_str_on);
+
 	row++;
 	write_text(6, row++, text_str_separator);
 
@@ -455,6 +473,10 @@ static enum MainMenuEntry key_mainMenu(enum MainMenuEntry *sel)
 					case MAIN_MENU_ENTRY_USE_JOY:
 						if (left || right)
 							mainMenu_usejoy = ~mainMenu_usejoy;
+						break;
+					case MAIN_MENU_ENTRY_STATUS_BAR:
+						if (left || right)
+							mainMenu_statusbar = ~mainMenu_statusbar;
 						break;
 					case MAIN_MENU_ENTRY_LOAD:
 					case MAIN_MENU_ENTRY_SAVED_STATES:
