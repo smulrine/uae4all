@@ -447,6 +447,8 @@ void restore_state (const char *filename)
 #if !defined(DREAMCAST) && !defined(DINGOO)
     if (SDL_MUSTLOCK(prSDLScreen))
     	SDL_LockSurface (prSDLScreen);
+#else
+    ;
 #endif
 }
 

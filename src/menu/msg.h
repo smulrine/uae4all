@@ -6,7 +6,7 @@ static const char *menu_msg="                         Amiga emulator "
  "for Dingoo "
 #endif
 #endif
-#ifdef GCW0
+#if defined(GCW0) || defined (RS97)
  "by Chui - based on UAE 0.8.22. GCW Zero port by Nebuleon and Zear. UAE4ALL logo and minor gfx changes by Hi-Ban. Release 1.";
 #else
  "by Chui.                    Third release Candidate.                               GPL License.                                          ";

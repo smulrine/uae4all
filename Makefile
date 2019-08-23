@@ -25,7 +25,7 @@ LIB7Z=1
 
 HOME_DIR=1
 
-DEFAULT_CFLAGS = -I$(CHAINPREFIX)/usr/include/ $(SDL_CFLAGS) -D_GNU_SOURCE=1 -D_REENTRANT -DGCW0
+DEFAULT_CFLAGS = -I$(CHAINPREFIX)/usr/include/ $(SDL_CFLAGS) -DRS97
 
 LDFLAGS = -lSDL -lSDL_image -lz -lpthread -flto
 # add -lSDL_mixer if -DMENU_MUSIC below
@@ -215,16 +215,6 @@ ipk: $(PROG)
 	@tar --owner=0 --group=0 -czvf /tmp/.uae4all-ipk/data.tar.gz -C /tmp/.uae4all-ipk/root/ .
 	@echo 2.0 > /tmp/.uae4all-ipk/debian-binary
 	@ar r $(RELEASEDIR)/uae4all.ipk /tmp/.uae4all-ipk/control.tar.gz /tmp/.uae4all-ipk/data.tar.gz /tmp/.uae4all-ipk/debian-binary
-
-opk: $(PROG)
-	mkdir -p $(RELEASEDIR)
-	cp $(PROG) $(RELEASEDIR)
-	cp -R $(DATADIR) $(RELEASEDIR)
-	rm $(RELEASEDIR)/$(DATADIR)/music.mod
-	rm $(RELEASEDIR)/$(DATADIR)/click.wav
-	cp $(OPKDIR)/default.gcw0.desktop $(OPKDIR)/readme.man.txt $(OPKDIR)/uae4all.png $(RELEASEDIR)
-	cp -R ./docs/ $(RELEASEDIR)
-	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
 
 almostclean:
 	cp src/m68k/fame/famec.o src/m68k/fame/famec.preserved.o
