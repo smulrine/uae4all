@@ -7,7 +7,7 @@ static const char *menu_msg="                         Amiga emulator "
 #endif
 #endif
 #if defined(GCW0) || defined (RS97)
- "by Chui - based on UAE 0.8.22. GCW Zero port by Nebuleon and Zear. UAE4ALL logo and minor gfx changes by Hi-Ban. Release 1.";
+ "by Chui - based on UAE 0.8.22. GCW Zero port by Nebuleon and Zear. UAE4ALL logo and minor gfx changes by Hi-Ban. Release 1-params.";
 #else
  "by Chui.                    Third release Candidate.                               GPL License.                                          ";
 #endif

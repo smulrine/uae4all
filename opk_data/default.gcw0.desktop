@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=UAE4ALL
 Comment=Amiga 500 emulator
-Exec=uae4all.elf
+Exec=uae4all.dge %f
 Terminal=false
 Type=Application
 StartupNotify=true
