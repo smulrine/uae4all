@@ -1,3 +1,10 @@
+ORIGINAL README from UAE 0.8.22
+===============================
+
+Please note that some features and options have been removed during GCW0 port.
+
+--------------------------------------------------------------------------------------
+
 This is version 0.8.22 of UAE, the UAE Amiga Emulator.
 
 Versions numbered 0.8.x are considered beta versions, but they generally
@@ -792,9 +799,9 @@ Special thanks to:
     Factor 5 has made several of their classic Amiga games freely
     available for download. There are still some good people left in the
     world...
-  - Jens Schönfeld, inventor of the Catweasel controller, donated one
+  - Jens SchÃ¶nfeld, inventor of the Catweasel controller, donated one
     controller card.
-  - Jürgen Beck and Ralf Steines, maintainers of the Amiga emulation web
+  - JÃ¼rgen Beck and Ralf Steines, maintainers of the Amiga emulation web
     site "Back to the Roots" (http://www.back2roots.org) and everyone else
     who spends time writing to software companies asking for permission to
     distribute old Amiga games.
