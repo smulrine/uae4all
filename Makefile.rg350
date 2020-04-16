@@ -1,9 +1,10 @@
-NAME   = uae4all.dge
-O      = o
-RM     = rm -f
-CC     = mipsel-linux-gcc
-CXX    = mipsel-linux-g++
-STRIP  = mipsel-linux-strip
+NAME       = uae4all.dge
+O          = o
+RM         = rm -f
+CC         = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
+CXX        = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
+STRIP      = /opt/gcw0-toolchain/usr/bin/mipsel-linux-strip
+MKSQUASHFS = /opt/gcw0-toolchain/usr/bin/mksquashfs
 
 PROG		= $(NAME)
 RELEASEDIR	= release
@@ -203,7 +204,7 @@ opk: $(PROG)
 	rm $(RELEASEDIR)/$(DATADIR)/click.wav
 	cp $(OPKDIR)/* $(RELEASEDIR)
 	cp -R ./docs/ $(RELEASEDIR)
-	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
+	$(MKSQUASHFS) $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
 
 almostclean:
 	cp src/m68k/fame/famec.o src/m68k/fame/famec.preserved.o
