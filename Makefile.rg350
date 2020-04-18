@@ -1,10 +1,11 @@
-NAME       = uae4all.dge
-O          = o
-RM         = rm -f
-CC         = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
-CXX        = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
-STRIP      = /opt/gcw0-toolchain/usr/bin/mipsel-linux-strip
-MKSQUASHFS = /opt/gcw0-toolchain/usr/bin/mksquashfs
+TOOLKIT = /home/xxx/RG350_buildroot-opendingux-2014.08/output/host
+
+NAME   = uae4all.dge
+O      = o
+RM     = rm -f
+CC     = $(TOOLKIT)/usr/bin/mipsel-linux-gcc
+CXX    = $(TOOLKIT)/usr/bin/mipsel-linux-g++
+STRIP  = $(TOOLKIT)/usr/bin/mipsel-linux-strip
 
 PROG		= $(NAME)
 RELEASEDIR	= release
@@ -18,7 +19,7 @@ LIB7Z=1
 
 HOME_DIR=1
 
-DEFAULT_CFLAGS = -I/opt/gcw0-toolchain/usr/include/ -I/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/include/  -I/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -DGCW0
+DEFAULT_CFLAGS = -I$(TOOLKIT)/usr/include -I$(TOOLKIT)/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/include -I$(TOOLKIT)/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -DGCW0
 # Added for STATUS_BAR option activation
 DEFAULT_CFLAGS+= -DRS97
 
@@ -204,7 +205,7 @@ opk: $(PROG)
 	rm $(RELEASEDIR)/$(DATADIR)/click.wav
 	cp $(OPKDIR)/* $(RELEASEDIR)
 	cp -R ./docs/ $(RELEASEDIR)
-	$(MKSQUASHFS) $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
+	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
 
 almostclean:
 	cp src/m68k/fame/famec.o src/m68k/fame/famec.preserved.o
@@ -214,3 +215,5 @@ almostclean:
 clean:
 	$(RM) $(PROG) $(OBJS)
 	rm -rf $(RELEASEDIR)
+	rm -rf uae4all.opk
+
