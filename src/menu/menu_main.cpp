@@ -532,7 +532,7 @@ static void unraise_mainMenu()
 	clear_events();
 }
 
-int run_mainMenu()
+int run_mainMenu(int init)
 {
 #if defined(AUTO_RUN) || defined(AUTO_FRAMERATE) || defined(AUTO_PROFILER)
 	return 1;
@@ -550,7 +550,10 @@ int run_mainMenu()
 		while (action == MAIN_MENU_ENTRY_NONE)
 		{
 			draw_mainMenu(c);
-			action = key_mainMenu(&c);
+			if (init == 0)
+				action = key_mainMenu(&c);
+			else
+				action = MAIN_MENU_ENTRY_RETURN_TO_EMULATION;
 		}
 		unraise_mainMenu();
 		switch (action)

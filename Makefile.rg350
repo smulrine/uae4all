@@ -1,4 +1,4 @@
-TOOLKIT = /home/xxx/RG350_buildroot-opendingux-2014.08/output/host
+TOOLKIT = /opt/gcw0-toolchain
 
 NAME   = uae4all.dge
 O      = o
