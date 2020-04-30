@@ -52,7 +52,7 @@ void drawPleaseWait(void);
 void menu_raise(void);
 void menu_unraise(void);
 
-int run_mainMenu(int init);
+int run_mainMenu();
 int run_menuDfSel();
 int run_menuLoad(enum DiskOrder new_df_num);
 int run_menuSave();

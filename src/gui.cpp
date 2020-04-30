@@ -259,9 +259,7 @@ int gui_init (int argc, char **argv)
 	loadConfig();
 	// Display the menu if no parameter exists
 	if (argc == 1)
-		run_mainMenu(0);
-	else
-		run_mainMenu(1);
+		run_mainMenu();
 	quit_text();
 	uae4all_pause_music();
 	emulating=1;
@@ -436,7 +434,7 @@ static void goMenu(void)
    init_text(0);
    pause_sound();
    menu_raise();
-   exitmode=run_mainMenu(0);
+   exitmode=run_mainMenu();
    notice_screen_contents_lost();
    resume_sound();
    if ((!(strcmp(prefs_df[0],uae4all_image_file))) || ((!(strcmp(prefs_df[1],uae4all_image_file2)))))
