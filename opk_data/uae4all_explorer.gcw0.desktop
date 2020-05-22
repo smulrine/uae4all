@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=uae4all
+Comment=Amiga 500 emulator
+Exec=uae4all.dge %f
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=uae4all
+Categories=emulators;
+X-OD-Manual=readme.man.txt
