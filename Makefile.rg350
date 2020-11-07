@@ -220,7 +220,11 @@ opk: $(PROG)
 	rm $(RELEASEDIR)/$(DATADIR)/click.wav
 	cp $(OPKDIR)/* $(RELEASEDIR)
 	cp -R ./docs/ $(RELEASEDIR)
+	rm -f uae4all.opk
 	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
+	rm $(RELEASEDIR)/uae4all_explorer.gcw0.desktop
+	rm -f uae4all_ui_only.opk
+	mksquashfs $(RELEASEDIR) uae4all_ui_only.opk -all-root -noappend -no-exports -no-xattrs
 
 almostclean:
 	cp src/m68k/fame/famec.o src/m68k/fame/famec.preserved.o
