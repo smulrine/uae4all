@@ -23,20 +23,22 @@ DEFAULT_CFLAGS = -I$(TOOLKIT)/usr/include -I$(TOOLKIT)/usr/mipsel-gcw0-linux-ucl
 # Added for STATUS_BAR option activation
 DEFAULT_CFLAGS+= -DRS97
 
-LDFLAGS = -lSDL -lSDL_image -lz -lpthread -flto
+LDFLAGS = -lSDL -lSDL_image -lz -lpthread
+
+# Add specific RG350 CPU optimizations
+LDFLAGS += -Wl,--as-needed -Wl,--gc-sections -flto -s
+
 # add -lSDL_mixer if -DMENU_MUSIC below
 ifndef FAME_CORE
 LDFLAGS += -lm
 endif
-#-s -static
 
-
-MORE_CFLAGS = -Isrc/ -Isrc/include/ -Isrc/menu -Isrc/vkbd -fomit-frame-pointer  -Wno-unused -Wno-format -DUSE_SDL -DGCCCONSTFUNC="__attribute__((const))" -DUSE_UNDERSCORE -fno-exceptions -DUNALIGNED_PROFITABLE -DREGPARAM="__attribute__((regparm(3)))" -DOPTIMIZED_FLAGS -D__inline__=__inline__ -DSHM_SUPPORT_LINKS=0 -DOS_WITHOUT_MEMORY_MANAGEMENT -DVKBD_ALWAYS
-
-MORE_CFLAGS += -O3 -flto -mno-shared -pipe -fno-exceptions -fno-rtti
+MORE_CFLAGS = -Isrc/ -Isrc/include/ -Isrc/menu -Isrc/vkbd
+MORE_CFLAGS += -DUSE_SDL -DGCCCONSTFUNC="__attribute__((const))" -DUSE_UNDERSCORE -DUNALIGNED_PROFITABLE -DREGPARAM="__attribute__((regparm(3)))" -DOPTIMIZED_FLAGS -D__inline__=__inline__ -DSHM_SUPPORT_LINKS=0 -DOS_WITHOUT_MEMORY_MANAGEMENT -DVKBD_ALWAYS
+MORE_CFLAGS += -pipe -fno-exceptions -fno-rtti -fomit-frame-pointer -Wno-unused -Wno-format 
 
 # Add specific RG350 CPU optimizations
-MORE_CFLAGS += -march=mips32r2 -mtune=mips32r2
+MORE_CFLAGS += -Ofast -fdata-sections -ffunction-sections -mno-fp-exceptions -mno-check-zero-division -fsingle-precision-constant -fno-common -march=mips32r2 -mtune=mips32r2 -flto -mno-shared -mplt
 
 MORE_CFLAGS+= -DROM_PATH_PREFIX=\"./\" -DDATA_PREFIX=\"./data/\" -DSAVE_PREFIX=\"./\"
 
@@ -102,7 +104,6 @@ MORE_CFLAGS+= -DFAME_INTERRUPTS_PATCH
 #MORE_CFLAGS+= -DPROFILER_UAE4ALL
 #MORE_CFLAGS+= -DAUTO_PROFILER=4000
 #MORE_CFLAGS+= -DMAX_AUTO_PROFILER=5000
-
 
 #MORE_CFLAGS+= -DPROFILER_UAE4ALL
 
@@ -190,12 +191,23 @@ OBJS += \
 
 endif
 
+# RG350 - PGO (optional, 2 steps)
+
+# STEP 1
+# CFLAGS += -fprofile-generate=/media/data/local/home/PGO
+# LDFLAGS += -lgcov 
+# useless here # LDFLAGS += $(CFLAGS)
+# useless here # LDFLAGS += -fprofile-generate=/media/data/local/home/PGO
+
+# STEP 2
+# CFLAGS += -fprofile-use
+# useless here # LDFLAGS += -fprofile-use
+
 CPPFLAGS  = $(CFLAGS)
 
 $(PROG): $(OBJS) 
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LDFLAGS)
 	$(STRIP) $(PROG)
-
 
 run: $(PROG)
 	./$(PROG)
