@@ -1,16 +1,24 @@
-TOOLKIT = /opt/gcw0-toolchain
+TOOLKIT 	= /opt/gcw0-toolchain
 
-NAME   = uae4all.dge
-O      = o
-RM     = rm -f
-CC     = $(TOOLKIT)/usr/bin/mipsel-linux-gcc
-CXX    = $(TOOLKIT)/usr/bin/mipsel-linux-g++
-STRIP  = $(TOOLKIT)/usr/bin/mipsel-linux-strip
+NAME   		= uae4all.dge
+O      		= o
+RM     		= rm -f
+CC     		= $(TOOLKIT)/usr/bin/mipsel-linux-gcc
+CXX    		= $(TOOLKIT)/usr/bin/mipsel-linux-g++
+STRIP  		= $(TOOLKIT)/usr/bin/mipsel-linux-strip
+HUGEEDIT    = $(TOOLKIT)/usr/bin/hugeedit
+MKSQUASHFS  = /usr/bin/mksquashfs
 
 PROG		= $(NAME)
 RELEASEDIR	= release
 DATADIR		= data
 OPKDIR		= opk_data
+
+# Uncomment to build for OD BETA
+OD_BETA = 1
+
+# Choose profiling phase (PHASE = 1 or 2, 0 is inactive)
+OD_PROFILE = 0
 
 all: $(PROG)
 
@@ -27,6 +35,11 @@ LDFLAGS = -lSDL -lSDL_image -lz -lpthread
 
 # Add specific RG350 CPU optimizations
 LDFLAGS += -Wl,--as-needed -Wl,--gc-sections -flto -s
+
+ifdef OD_BETA
+	# Add specific RG350 CPU optimizations (BETA FIRMWARE)
+	LDFLAGS += -Wl,-zcommon-page-size=2097152 -Wl,-zmax-page-size=2097152 -lhugetlbfs
+endif
 
 # add -lSDL_mixer if -DMENU_MUSIC below
 ifndef FAME_CORE
@@ -188,26 +201,32 @@ OBJS += \
 	src/m68k/uae/fpp.o \
 	src/m68k/uae/cpustbl.o \
 	src/m68k/uae/cpuemu.o
-
 endif
 
 # RG350 - PGO (optional, 2 steps)
 
-# STEP 1
-# CFLAGS += -fprofile-generate=/media/data/local/home/PGO
-# LDFLAGS += -lgcov 
-# useless here # LDFLAGS += $(CFLAGS)
-# useless here # LDFLAGS += -fprofile-generate=/media/data/local/home/PGO
+# STEP 1 : create profile files
+ifeq ("${OD_PROFILE}","1")
+	CFLAGS += -fprofile-generate=/media/data/local/home/PGO
+	LDFLAGS += -lgcov 
+	# useless here # LDFLAGS += $(CFLAGS)
+	# useless here # LDFLAGS += -fprofile-generate=/media/data/local/home/PGO
+endif
 
-# STEP 2
-# CFLAGS += -fprofile-use
-# useless here # LDFLAGS += -fprofile-use
+# STEP 2 : use profile files
+ifeq ("${OD_PROFILE}","2")
+	CFLAGS += -fprofile-use
+	# useless here # LDFLAGS += -fprofile-use
+endif
 
 CPPFLAGS  = $(CFLAGS)
 
 $(PROG): $(OBJS) 
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LDFLAGS)
 	$(STRIP) $(PROG)
+	@if [ "${OD_BETA}" = "1" ]; then\
+        $(HUGEEDIT) --text --data $(PROG);\
+    fi
 
 run: $(PROG)
 	./$(PROG)
@@ -221,10 +240,10 @@ opk: $(PROG)
 	cp $(OPKDIR)/* $(RELEASEDIR)
 	cp -R ./docs/ $(RELEASEDIR)
 	rm -f uae4all.opk
-	mksquashfs $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs
+	$(MKSQUASHFS) $(RELEASEDIR) uae4all.opk -all-root -noappend -no-exports -no-xattrs -force-uid 1000 -force-gid 100
 	rm $(RELEASEDIR)/uae4all_explorer.gcw0.desktop
 	rm -f uae4all_ui_only.opk
-	mksquashfs $(RELEASEDIR) uae4all_ui_only.opk -all-root -noappend -no-exports -no-xattrs
+	$(MKSQUASHFS) $(RELEASEDIR) uae4all_ui_only.opk -all-root -noappend -no-exports -no-xattrs -force-uid 1000 -force-gid 100
 
 almostclean:
 	cp src/m68k/fame/famec.o src/m68k/fame/famec.preserved.o
@@ -235,4 +254,4 @@ clean:
 	$(RM) $(PROG) $(OBJS)
 	rm -rf $(RELEASEDIR)
 	rm -rf uae4all.opk
-
+	rm -rf uae4all_ui_only.opk
