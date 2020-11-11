@@ -207,7 +207,7 @@ endif
 
 # STEP 1 : create profile files
 ifeq ("${OD_PROFILE}","1")
-	CFLAGS += -fprofile-generate=/media/data/local/home/PGO
+	CFLAGS += -fprofile-generate=/media/data/local/home/PGO/L2
 	LDFLAGS += -lgcov 
 	# useless here # LDFLAGS += $(CFLAGS)
 	# useless here # LDFLAGS += -fprofile-generate=/media/data/local/home/PGO
@@ -215,7 +215,7 @@ endif
 
 # STEP 2 : use profile files
 ifeq ("${OD_PROFILE}","2")
-	CFLAGS += -fprofile-use
+	CFLAGS += -fprofile-use -fprofile-dir=./PGO
 	# useless here # LDFLAGS += -fprofile-use
 endif
 
