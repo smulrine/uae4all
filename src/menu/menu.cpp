@@ -204,6 +204,8 @@ void init_text(int splash)
 
 	if (prSDLScreen==NULL)
 	{
+		// Set framerate to 50 Hz (PAL)
+		setenv("SDL_VIDEO_REFRESHRATE", "50", 1);
 		SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK);
 		prSDLScreen=SDL_SetVideoMode(320,240,16,VIDEO_FLAGS);
     		SDL_ShowCursor(SDL_DISABLE);

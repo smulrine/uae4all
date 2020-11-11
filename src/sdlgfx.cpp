@@ -298,6 +298,9 @@ static void graphics_subinit (void)
 	dbgf("Resolution: %d x %d\n", current_width, current_height);
 #endif
 
+	// Set framerate to 50 Hz (PAL)
+	setenv("SDL_VIDEO_REFRESHRATE", "50", 1);
+
 	if (prSDLScreen==NULL)
 #ifdef DREAMCAST
 		prSDLScreen = SDL_SetVideoMode(current_width, current_height, 16, uiSDLVidModFlags|VIDEO_FLAGS);

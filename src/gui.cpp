@@ -221,7 +221,8 @@ static void getChanges(void)
 
 int gui_init (int argc, char **argv)
 {
-//Se ejecuta justo despues del MAIN
+	// Set framerate to 50 Hz (PAL)
+	setenv("SDL_VIDEO_REFRESHRATE", "50", 1);
     if (prSDLScreen==NULL)
 	// prSDLScreen=SDL_SetVideoMode(320,240,16,VIDEO_FLAGS);
 	prSDLScreen=SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE |
